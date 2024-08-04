@@ -34,7 +34,7 @@ export default {
    return {
      experience: -0.0001,
      gold: 0,
-     questsVisible: true,
+     questsVisible: false,
      experienceBuffer: 0,
     }
   },
