@@ -112,7 +112,7 @@ export default {
     isDailyDone (quest) {
       if (!quest.date) false
       var start = new Date();
-      start.setUTCHours(0,0,0,0);
+      start.setHours(0,0,0,0);
       return Number(new Date(quest.date)) > Number(start)
     },
     changeDailyDone (quest) {
