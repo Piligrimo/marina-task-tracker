@@ -36,7 +36,7 @@
 
 .hit-animation {
   animation-name: hit;
-  animation-duration: 2s;
+  animation-duration: 1s;
 }
 .frontflip-animation {
   animation-name: frontflip;

@@ -132,11 +132,12 @@ export default {
       this.skillIds.push(skillId)
     },
     playAnimation(animation) {
-      this.animationClass = animation+'-animation'
-      clearTimeout(this.timer)
-      this.timer = setTimeout(() => {
         this.animationClass = ''
-       }, 5000)
+        clearTimeout(this.timer)
+
+        this.timer = setTimeout(() => {
+          this.animationClass = animation+'-animation'
+        }, 1)
     }
   }
 
