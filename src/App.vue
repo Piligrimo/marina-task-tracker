@@ -1,41 +1,74 @@
 <template>
   <div id="app">
     <div class="image-container">
-      <img class="character" alt="marina" src="./assets/marina.png">
+      <img class="character" :class="animationClass" alt="marina" src="./assets/marina.png">
     </div>
-    <div>
-       <h2>Марина</h2>
-       <div class="info">
-        <h3>Уровень: {{ currentLevel }}</h3>
-        <h3>Золото: {{ gold }}</h3>
-       </div>
-    </div>
-    <div class="progress-container pixel-border">
-      <div class="progress" :style="{ width: formattedProgress}"></div>
-    </div>
-    <button class="button pixel-border" @click="questsVisible = true">Квесты</button>
+    <template v-if="section === 'info'">
+      <div>
+        <h2>Марина</h2>
+        <div class="info">
+          <h3>Уровень: {{ currentLevel }}</h3>
+          <h3>Золото: {{ gold }}</h3>
+        </div>
+      </div>
+      <div class="progress-container pixel-border">
+        <div class="progress" :style="{ width: formattedProgress}"></div>
+      </div>
+      <button class="button pixel-border" @click="questsVisible = true">Квесты</button>
+      <button class="button pixel-border" @click="section = 'skills'">Навыки</button>
+    </template>
+    <template v-else>
+      <h2>Навыки</h2>
+      <h3>Скиллпоинты: {{ skillPoints }}</h3>
+      <button
+        v-for="skill in learnedSkills"
+        class="button pixel-border _compact"
+        :key="skill.id"
+        @click="playAnimation(skill.animation)"
+      >
+        {{ skill.shortName }}
+      </button>
+      <button class="button pixel-border _compact" @click="skillBookVisible = true">+</button>
+      <button class="button pixel-border" @click="section = 'info'">Назад</button>
+    </template>
+   
     <quests
       v-show="questsVisible" 
       @close="closeQuests"
       @add-exp="experienceBuffer += $event"
       @add-gold="gold += $event"
     />
+    <skill-book
+      v-show="skillBookVisible" 
+      :skill-points="skillPoints"
+      :learned-skill-ids="skillIds"
+      @close="closeSkillBook"
+      @learn-skill="learnSkill"
+    />
   </div>
 </template>
 
 <script>
 import Quests from './components/Quests.vue'
+import SkillBook from './components/SkillBook.vue'
+import { skillList } from './utils'
 export default {
   name: 'App',
   components: {
-    Quests
+    Quests,
+    SkillBook
   },
   data() { 
    return {
      experience: -0.0001,
      gold: 0,
      questsVisible: false,
+     skillBookVisible: false,
      experienceBuffer: 0,
+     section: 'info',
+     skillIds:[],
+     animationClass: '',
+     timer: null
     }
   },
   created() {
@@ -43,9 +76,14 @@ export default {
       localStorage.setItem('gold', this.gold)
       this.experience+=this.experienceBuffer
       localStorage.setItem('experience', this.experience)
+      localStorage.setItem('skillIds', JSON.stringify(this.skillIds))
     })
     this.experience = Number(localStorage.getItem('experience'))
     this.gold = Number(localStorage.getItem('gold'))
+    const skillIds = localStorage.getItem('skillIds')
+    if (skillIds) {
+      this.skillIds = JSON.parse(skillIds)
+    }
   },
   computed: {
     currentLevel() {
@@ -69,8 +107,14 @@ export default {
       if (this.progressInPercents < 0) return '0'
       if (this.progressInPercents >= 99) return '100%'
       return this.progressInPercents + '%'
+    },
+    learnedSkills() {
+      return this.skillIds.map(id => skillList.find(skill => skill.id === id))
+    },
+    skillPoints() {
+      return this.currentLevel - this.learnedSkills.length - 1
     }
-  },
+   },
   methods: {
     experienceForNthLevel(n) {
       if (n === 1) return 0
@@ -80,6 +124,19 @@ export default {
       this.questsVisible = false
       this.experience += this.experienceBuffer
       this.experienceBuffer = 0
+    },
+    closeSkillBook() {
+      this.skillBookVisible = false
+    },
+    learnSkill(skillId) {
+      this.skillIds.push(skillId)
+    },
+    playAnimation(animation) {
+      this.animationClass = animation+'-animation'
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        this.animationClass = ''
+       }, 5000)
     }
   }
 
@@ -87,6 +144,7 @@ export default {
 </script>
 
 <style>
+@import url(./assets/animations.css);
 body {
   background-color: #beb69f;
 }
@@ -120,6 +178,7 @@ body {
   background-color: #ffc904;
   border: none;
   color: #472e05;
+  margin-right: 20px;
 }
 .button:active {
   transform: scale(0.95);
@@ -131,8 +190,9 @@ body {
 .button:disabled:active {
   transform: scale(1);
   background-color: #bc6c6c;
-
-
+}
+.button._compact {
+  width: 45px;
 }
 .character {
   margin: auto;

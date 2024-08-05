@@ -1,0 +1,63 @@
+@keyframes hit {
+  0%   {transform: skew(0);}
+  80%  {transform: skew(-20deg, 20deg);}
+  90%  {transform: skew(60deg, -20deg) translateX(-100px);}
+  100%   {transform: skew(0);}
+}
+
+@keyframes frontflip {
+  0%   {transform: scaleY(0.4);}
+  10%  {transform: translateY(-100px)}
+  60%  {transform: translateY(-100px) rotate(-360deg)}
+  100% {transform: rotate(-360deg)}
+}
+
+@keyframes battle-fury {
+  0%   {transform: scaleX(1.4); filter:blur(2px);}
+  50%   {transform: scaleX(-1.4); filter:blur(2px);}
+  100%   {transform: scaleX(1.4); filter:blur(2px);}
+}
+
+@keyframes dropkick {
+  10%   {transform: scaleY(0.4) translateY(-100px)}
+  40%   {transform: scaleX(0.4) translateY(-100px) rotate(90deg)}
+  50%   {transform:  translate(-50px,-100px) rotate(90deg)}
+  60%   {transform:  translate(-50px,0) rotate(90deg)}
+}
+@keyframes invisibility {
+  0%   {opacity: 0.1};
+  100%   {opacity: 0.1};
+}
+
+@keyframes rage {
+  10%   {transform: scale(1.3); filter: saturate(4) hue-rotate(-54deg)};
+  100%   {transform: scale(1.3); filter: saturate(4) hue-rotate(-54deg)};
+}
+
+.hit-animation {
+  animation-name: hit;
+  animation-duration: 2s;
+}
+.frontflip-animation {
+  animation-name: frontflip;
+  animation-duration: 2s;
+}
+.battle-fury-animation {
+  animation-name: battle-fury;
+  animation-duration: 0.2s;
+  animation-iteration-count: 15;
+}
+  .dropkick-animation {
+  animation-name: dropkick;
+  animation-duration: 2s;
+}
+.invisibility-animation {
+  animation-name: invisibility;
+  animation-duration: 10s;
+}
+
+.rage-animation {
+  animation-name: rage;
+  animation-duration: 15s;
+  animation-timing-function: linear;
+}

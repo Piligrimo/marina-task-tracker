@@ -17,7 +17,7 @@
         </p>
         <div v-else>
           <h2 v-if="dailyQuests.length > 0">Ежедневные квесты</h2>
-          <div class="quest" v-for="(quest,i) in dailyQuests" :key="i">
+          <div class="quest" v-for="(quest,i) in dailyQuests" :key="i+'daily'">
             <div class="quest-header">
               <h3>
                 {{ quest.text }}
@@ -28,7 +28,7 @@
             <p class="difficulty">{{ diffсulties[quest.difficulty] }}   ( {{dailyRewards[quest.difficulty]}} ед. опыта )</p>
           </div>
           <h2 v-if="notDoneQuests.length > 0">Квесты с дедлайном</h2>
-          <div class="quest" v-for="(quest,i) in notDoneQuests" :key="i">
+          <div class="quest" v-for="(quest,i) in notDoneQuests" :key="i+'nondaily'">
             <div class="quest-header">
               <h3>
                 {{ quest.text }}
@@ -39,7 +39,7 @@
             <p class="difficulty">{{ diffсulties[quest.difficulty] }}   ( {{nonDailyRewards[quest.difficulty]}} золота )</p>
           </div>
           <h2 v-if="doneQuests.length > 0">Выполненые квесты</h2>
-          <div class="quest _done" v-for="(quest,i) in doneQuests" :key="i">
+          <div class="quest _done" v-for="(quest,i) in doneQuests" :key="i+'done'">
             <div class="quest-header">
               <h3>
                 {{ quest.text }}
