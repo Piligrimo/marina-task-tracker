@@ -245,5 +245,6 @@ body {
 }
 input[type='date'] {
   -webkit-appearance: none;
+  min-height: 1.2em; 
 }
 </style>
