@@ -244,8 +244,6 @@ body {
   justify-content: center;
 }
 input[type='date'] {
-  -webkit-appearance: textfield;
-  -moz-appearance: textfield;
-  min-height: 1.2em; 
+  -webkit-appearance: none;
 }
 </style>
