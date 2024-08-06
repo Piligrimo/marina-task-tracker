@@ -152,6 +152,7 @@ body {
 
 @font-face {
   font-family: 'MyWebFont';
+  src: url("assets/ITP.woff") format("woff");
   src: url('assets/ITP.ttf'); /* IE9 Compat Modes */
   src: url('assets/ITP.ttf?#iefix') format('embedded-opentype'), /* IE6-IE8 */
 }
@@ -161,7 +162,7 @@ body {
 }
 
 #app {
-  font-family: 'MyWebFont', monospace;
+  font-family: 'MyWebFont', system-ui;;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #472e05;

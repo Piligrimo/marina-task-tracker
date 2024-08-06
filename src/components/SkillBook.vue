@@ -11,7 +11,7 @@
         <h2 class="label" v-if="unlearnedSkills.length">Неизученные навыки</h2>
         <div class="list-item" v-for="skill in unlearnedSkills" :key="skill.id">
           <h3>{{ skill.name }}</h3>
-          <h3 v-if="skillPoints" @click="$emit('learn-skill', skill.id)">Изучить</h3>
+          <h3 v-if="skillPoints > 0" @click="$emit('learn-skill', skill.id)">Изучить</h3>
         </div>
         <h2 class="label"  v-if="learnedSkills.length">Изученные навыки</h2>
         <div class="list-item" v-for="skill in learnedSkills" :key="skill.id">
