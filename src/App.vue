@@ -152,9 +152,10 @@ body {
 
 @font-face {
   font-family: 'MyWebFont';
-  src: url("assets/ITP.woff") format("woff");
-  src: url('assets/ITP.ttf'); /* IE9 Compat Modes */
-  src: url('assets/ITP.ttf?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  src: url("assets/ITP.woff2") format("woff2"),
+      url("assets/ITP.woff") format("woff"),
+      url('assets/ITP.ttf'), /* IE9 Compat Modes */
+      url('assets/ITP.ttf?#iefix') format('embedded-opentype'), /* IE6-IE8 */
 }
 :root {
   --pixel-color: #ac6c06;
