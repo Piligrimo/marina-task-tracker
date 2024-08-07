@@ -52,6 +52,8 @@
 import Quests from './components/Quests.vue'
 import SkillBook from './components/SkillBook.vue'
 import { skillList } from './utils'
+import api from '@/api'
+
 export default {
   name: 'App',
   components: {
@@ -60,7 +62,7 @@ export default {
   },
   data() { 
    return {
-     experience: -0.0001,
+     experience: 0,
      gold: 0,
      questsVisible: false,
      skillBookVisible: false,
@@ -71,19 +73,8 @@ export default {
      timer: null
     }
   },
-  created() {
-    addEventListener("unload", () => {
-      localStorage.setItem('gold', this.gold)
-      this.experience+=this.experienceBuffer
-      localStorage.setItem('experience', this.experience)
-      localStorage.setItem('skillIds', JSON.stringify(this.skillIds))
-    })
-    this.experience = Number(localStorage.getItem('experience'))
-    this.gold = Number(localStorage.getItem('gold'))
-    const skillIds = localStorage.getItem('skillIds')
-    if (skillIds) {
-      this.skillIds = JSON.parse(skillIds)
-    }
+  async created() {
+    this.initInfo()
   },
   computed: {
     currentLevel() {
@@ -116,19 +107,28 @@ export default {
     }
    },
   methods: {
+    async initInfo() {
+      const { experience, gold, skillIds} = await api.getInfo()
+
+      this.experience = experience - 0.0001
+      this.gold = gold
+      if (skillIds) {
+        this.skillIds = JSON.parse(skillIds)
+      }
+    },
     experienceForNthLevel(n) {
       if (n === 1) return 0
       return Math.floor(n * n * 2)
     },
     closeQuests() { 
       this.questsVisible = false
-      this.experience += this.experienceBuffer
-      this.experienceBuffer = 0
+      this.initInfo()
     },
     closeSkillBook() {
       this.skillBookVisible = false
     },
-    learnSkill(skillId) {
+    async learnSkill(skillId) {
+      await api.learnSkill(skillId)
       this.skillIds.push(skillId)
     },
     playAnimation(animation) {

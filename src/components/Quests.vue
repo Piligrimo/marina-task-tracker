@@ -8,7 +8,8 @@
         </h1>
         <h1 class="cross" @click="$emit('close')">x</h1>
       </header>
-      <div class="list" v-if="page === 'list'">
+      <h2 v-if="pending" style="text-align: center; margin-top: 30px;">Загрузка...</h2>
+      <div class="list" v-else-if="page === 'list'">
         <p 
           v-if="quests.length === 0" 
           class="empty-list"
@@ -21,9 +22,9 @@
             <div class="quest-header">
               <h3>
                 {{ quest.text }}
-                <img src="@/assets/trash.png" alt="" class="trash" @click="deleteQuest(i)">
+                <img src="@/assets/trash.png" alt="" class="trash" @click="deleteQuest(quest.id)">
               </h3>
-              <h3 @click="changeDailyDone(quest, i)" class="is-done" :class="isDailyDone(quest) ? 'add' : 'back'"> {{ isDailyDone(quest) ? 'Готово' : 'Не готово' }} </h3>
+              <h3 @click="changeDone(quest, i)" class="is-done" :class="isDailyDone(quest) ? 'add' : 'back'"> {{ isDailyDone(quest) ? 'Готово' : 'Не готово' }} </h3>
             </div>
             <p class="difficulty">{{ diffсulties[quest.difficulty] }}   ( {{dailyRewards[quest.difficulty]}} ед. опыта )</p>
           </div>
@@ -32,9 +33,9 @@
             <div class="quest-header">
               <h3>
                 {{ quest.text }}
-                <img src="@/assets/trash.png" alt="" class="trash" @click="deleteQuest(i)">
+                <img src="@/assets/trash.png" alt="" class="trash" @click="deleteQuest(quest.id)">
               </h3>
-              <h3 @click="changeDone(quest)" class="is-done" > Выполнен </h3>
+              <h3 @click="changeDone(quest)" class="is-done" > Выполнить </h3>
             </div>
             <p class="difficulty">{{ diffсulties[quest.difficulty] }}   ( {{nonDailyRewards[quest.difficulty]}} золота )</p>
           </div>
@@ -43,7 +44,7 @@
             <div class="quest-header">
               <h3>
                 {{ quest.text }}
-                <img src="@/assets/trash.png" alt="" class="trash" @click="deleteQuest(i)">
+                <img src="@/assets/trash.png" alt="" class="trash" @click="deleteQuest(quest.id)">
               </h3>
               <h3 @click="changeDone(quest)" class="is-done" > Отменить </h3>
             </div>
@@ -77,6 +78,7 @@
 
 <script>
 import { diffсulties, dailyRewards, nonDailyRewards } from '@/utils'
+import api from '@/api'
 export default {
   name: 'QuestList',
   data () {
@@ -90,58 +92,50 @@ export default {
       diffсulties,
       dailyRewards,
       nonDailyRewards,
+      pending: false
     }
   },
   methods: {
-    create() {
-      this.quests.push({
+    async create() {
+      this.page = 'list'
+      this.pending = true
+      await api.createQuest({
         text: this.text,
         daily: this.daily,
         deadline: this.deadline,
         difficulty: this.difficulty
       })
+      this.quests = await api.getQuests()
+      this.pending = false
       this.text = ''
       this.daily = false
       this.deadline = null
       this.difficulty = 0
       this.page = 'list'
     },
-    deleteQuest(i) {
-      this.quests.splice(i, 1)
+    async deleteQuest(id) {
+      this.pending = true
+      await api.deleteQuest(id)
+      this.quests = await api.getQuests()
+      this.pending = false
     },
     isDailyDone (quest) {
       if (!quest.date) false
       var start = new Date();
-      start.setHours(0,0,0,0);
+      start.setHours(4,0,0,0);
       return Number(new Date(quest.date)) > Number(start)
     },
-    changeDailyDone (quest) {
-      if (this.isDailyDone(quest)) { 
-        this.$set(quest, 'date', null)
-        this.$emit('add-exp', -dailyRewards[quest.difficulty])
-      } else {
-        this.$set(quest, 'date', new Date())
-        this.$emit('add-exp', dailyRewards[quest.difficulty])
-      }
+    async changeDone (quest) {
+      this.pending = true
+      await api.checkQuest(quest.id)
+      this.quests = await api.getQuests()
+      this.pending = false
     },
-    changeDone(quest) {
-      if (quest.done) {
-        this.$set(quest, 'done', false)
-         this.$emit('add-gold', -nonDailyRewards[quest.difficulty])
-      } else {
-        this.$set(quest, 'done', true)
-        this.$emit('add-gold', nonDailyRewards[quest.difficulty])
-      }
-    }
   },
-  created() {
-    addEventListener("unload", () => {
-      localStorage.setItem('quests', JSON.stringify(this.quests))
-    })
-    const quests = localStorage.getItem('quests')
-    if (quests) {
-      this.quests = JSON.parse(quests)
-    }
+  async created() {
+    this.pending = true
+    this.quests = await api.getQuests()
+    this.pending = false
   },
   computed: {
     diffсultyOptions () {
