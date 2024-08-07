@@ -1,5 +1,5 @@
 const axios = require('axios');
-const isLocal = true
+const isLocal = false
 const instance = axios.create(
     {
         baseURL: isLocal ? "http://localhost:8081/" :  "https://ribbon-awake-chance.glitch.me/",
