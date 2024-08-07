@@ -1,7 +1,8 @@
 const axios = require('axios');
+const isLocal = true
 const instance = axios.create(
     {
-        baseURL: "https://ribbon-awake-chance.glitch.me/",
+        baseURL: isLocal ? "http://localhost:8081/" :  "https://ribbon-awake-chance.glitch.me/",
         withCredentials: false,
         headers: {
             'Access-Control-Allow-Origin' : '*',
@@ -17,6 +18,30 @@ export default {
         } catch (e) {
             console.error(e)
         }
+    },
+    async getEquipment() {
+        try {
+            const { data } = await instance.get('/equipment')
+            return data
+        } catch (e) {
+            console.error(e)
+        }
+    },
+    async buyItem(item) {
+        try {
+            const { data } = await instance.put('/buy-item', item)
+            return data
+        } catch (e) {
+            console.error(e)
+        }
+    },
+    async equipItem(item) {
+      try {
+          const { data } = await instance.put('/equip-item', item)
+          return data
+      } catch (e) {
+          console.error(e)
+      }
     },
     async learnSkill(id) {
         try {

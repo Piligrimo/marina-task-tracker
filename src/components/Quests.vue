@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import { diffсulties, dailyRewards, nonDailyRewards } from '@/utils'
+import { diffсulties, dailyRewards, nonDailyRewards } from '@/utils/utils'
 import api from '@/api'
 export default {
   name: 'QuestList',
@@ -257,3 +257,4 @@ h1,h3 {
   opacity: 0.6;
 }
 </style>
+@/utils/utils

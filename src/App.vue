@@ -1,7 +1,10 @@
 <template>
   <div id="app">
     <div class="image-container">
-      <img class="character" :class="animationClass" alt="marina" src="./assets/marina.png">
+      <div class="character-container" :class="animationClass" >
+        <img v-if="headPiece" class="head-piece pixel-img" alt="head-piece" :src="headPiece">
+        <img class="character pixel-img" alt="marina" :src="bodyPiece">
+      </div>
     </div>
     <template v-if="section === 'info'">
       <div>
@@ -16,6 +19,7 @@
       </div>
       <button class="button pixel-border" @click="questsVisible = true">Квесты</button>
       <button class="button pixel-border" @click="section = 'skills'">Навыки</button>
+      <button class="button pixel-border" @click="skinBookVisible = true">Шмотки</button>
     </template>
     <template v-else>
       <h2>Навыки</h2>
@@ -45,20 +49,30 @@
       @close="closeSkillBook"
       @learn-skill="learnSkill"
     />
+    <skin-book 
+      v-show="skinBookVisible" 
+      :gold="gold" 
+      :equipment="equipment" 
+      :bought-items="boughtItems"
+      @close="skinBookVisible = false"
+      @update-info="initInfo"
+    />
   </div>
 </template>
 
 <script>
 import Quests from './components/Quests.vue'
 import SkillBook from './components/SkillBook.vue'
-import { skillList } from './utils'
+import SkinBook from './components/SkinBook.vue'
+import { skillList } from './utils/utils'
+import skins from './utils/skins'
 import api from '@/api'
-
 export default {
   name: 'App',
   components: {
     Quests,
-    SkillBook
+    SkillBook,
+    SkinBook
   },
   data() { 
    return {
@@ -66,11 +80,18 @@ export default {
      gold: 0,
      questsVisible: false,
      skillBookVisible: false,
+     skinBookVisible: false,
      experienceBuffer: 0,
      section: 'info',
      skillIds:[],
      animationClass: '',
-     timer: null
+     timer: null,
+     equipment: {
+      body: null,
+      head: null,
+      weapon: null,
+     },
+     boughtItems: []
     }
   },
   async created() {
@@ -104,12 +125,27 @@ export default {
     },
     skillPoints() {
       return this.currentLevel - this.learnedSkills.length - 1
+    },
+    bodyPiece() {
+      const skin = skins.find(skin => skin.id === this.equipment.body)
+      return skin ? skin.image : skins[0].image
+    },
+    headPiece() {
+      const skin = skins.find(skin => skin.id === this.equipment.head)
+      return skin ? skin.image : null
     }
    },
   methods: {
     async initInfo() {
       const { experience, gold, skillIds} = await api.getInfo()
+      const { body, head, weapon, boughtItems} = await api.getEquipment()
 
+      this.equipment.body = body
+      this.equipment.head = head
+      this.equipment.weapon = weapon
+      if (boughtItems) {
+        this.boughtItems = JSON.parse(boughtItems)
+      }
       this.experience = experience - 0.0001
       this.gold = gold
       if (skillIds) {
@@ -174,7 +210,7 @@ body {
 }
 .button {
   font-family: 'MyWebFont', monospace;
-  width: 100px;
+  width: 90px;
   margin-top: 20px;
   padding: 10px;
   font-size: 20px;
@@ -200,6 +236,9 @@ body {
 .character {
   margin: auto;
   width: 150px;
+}
+
+.pixel-img {
   image-rendering: -o-crisp-edges;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
@@ -247,4 +286,14 @@ input[type='date'] {
   -webkit-appearance: none;
   min-height: 1.2em; 
 }
+.character-container {
+  position: relative;
+}
+.head-piece {
+  position: absolute;
+  width: 200px;
+  top: -49px;
+  left: -10px;
+}
 </style>
+./utils/utils

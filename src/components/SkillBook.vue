@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { skillList } from '@/utils'
+import { skillList } from '@/utils/utils'
 export default {
   name: 'SkillBook',
   props: {
@@ -135,3 +135,4 @@ h1,h3 {
   opacity: 0.6;
 }
 </style>
+@/utils/utils
