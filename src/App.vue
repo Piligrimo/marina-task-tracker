@@ -20,7 +20,7 @@
         </div>
         <button class="button pixel-border" @click="questsVisible = true">Квесты</button>
         <button class="button pixel-border" @click="section = 'skills'">Навыки</button>
-        <button class="button pixel-border" @click="skillBookVisible = true">Шмотки</button>
+        <button class="button pixel-border" @click="skinBookVisible = true">Шмотки</button>
       </template>
       <template v-else>
         <h2>Навыки</h2>
@@ -211,10 +211,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #472e05;
-  margin-top: 60px;
   max-width: 350px;
   margin: auto;
-  padding: 20px;
+  padding: 60px 20px;
 }
 .button {
   font-family: 'MyWebFont', monospace;
