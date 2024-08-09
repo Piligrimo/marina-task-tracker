@@ -8,6 +8,7 @@ import summerFit from '@/assets/skins/summer-fit.png'
 import leatherArmor from '@/assets/skins/leather-armor.png'
 import ironArmor from '@/assets/skins/iron-armor.png'
 import diamondArmor from '@/assets/skins/diamond-armor.png'
+import clownMakeup from '@/assets/skins/сlown-makeup.png'
 
 export default [
   { 
@@ -80,5 +81,12 @@ export default [
     image: diamondArmor,
     type: 'body',
     price: 1000,
+  },
+  { 
+    id: 10,
+    name: 'Макияж клоуна',
+    image: clownMakeup,
+    type: 'head',
+    price: 10,
   },
 ]

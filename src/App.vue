@@ -298,9 +298,9 @@ input[type='date'] {
 }
 .head-piece {
   position: absolute;
-  width: 200px;
-  top: -49px;
-  left: -10px;
+  width: 168px;
+  top: -45px;
+  left: 2px;
 }
 @keyframes spin {
   0% { transform: rotate(0deg); }
