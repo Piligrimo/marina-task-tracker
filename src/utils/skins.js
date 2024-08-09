@@ -5,6 +5,9 @@ import blueKimono from '@/assets/skins/blue-kimono.png'
 import panama from '@/assets/skins/panama.png'
 import rainbowKimono from '@/assets/skins/rainbow-kimono.png'
 import summerFit from '@/assets/skins/summer-fit.png'
+import leatherArmor from '@/assets/skins/leather-armor.png'
+import ironArmor from '@/assets/skins/iron-armor.png'
+import diamondArmor from '@/assets/skins/diamond-armor.png'
 
 export default [
   { 
@@ -55,5 +58,27 @@ export default [
     image: summerFit,
     type: 'body',
     price: 100,
+  },
+
+  { 
+    id: 7,
+    name: 'Кожаная броня',
+    image: leatherArmor,
+    type: 'body',
+    price: 50,
+  },
+  { 
+    id: 8,
+    name: 'Железная броня',
+    image: ironArmor,
+    type: 'body',
+    price: 300,
+  },
+  { 
+    id: 9,
+    name: 'Алмазная броня',
+    image: diamondArmor,
+    type: 'body',
+    price: 1000,
   },
 ]
