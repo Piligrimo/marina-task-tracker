@@ -10,6 +10,10 @@ import ironArmor from '@/assets/skins/iron-armor.png'
 import diamondArmor from '@/assets/skins/diamond-armor.png'
 import clownMakeup from '@/assets/skins/сlown-makeup.png'
 import clownFit from '@/assets/skins/clown-fit.png'
+import knife from '@/assets/skins/knife.png'
+import shortSword from '@/assets/skins/short-sword.png'
+import longSword from '@/assets/skins/long-sword.png'
+import pickaxe from '@/assets/skins/pickaxe.png'
 
 export default [
   { 
@@ -84,6 +88,14 @@ export default [
     price: 1000,
   },
   { 
+    id: 15,
+    name: 'Алмазная кирка',
+    image: pickaxe,
+    type: 'weapon',
+    offset: 50,
+    price: 1000,
+  },
+  { 
     id: 10,
     name: 'Макияж клоуна',
     image: clownMakeup,
@@ -95,6 +107,30 @@ export default [
     name: 'Костюм клоуна',
     image: clownFit,
     type: 'body',
+    price: 100,
+  },
+  { 
+    id: 12,
+    name: 'Нож',
+    image: knife,
+    type: 'weapon',
+    offset: 90,
+    price: 5,
+  },
+  { 
+    id: 13,
+    name: 'Короткий меч',
+    image: shortSword,
+    type: 'weapon',
+    offset: 60,
+    price: 50,
+  },
+  { 
+    id: 14,
+    name: 'Длинный меч',
+    image: longSword,
+    type: 'weapon',
+    offset: 10,
     price: 100,
   },
 ]

@@ -10,7 +10,12 @@
         <h2>Золото: {{ gold }}</h2>
         <div class="shop" >
           <h1 :class="{transparent: currentItem <= 0}" @click="prevItem">&lt;</h1>
-          <img class="item pixel-img" alt="marina" :src="image">
+          <img 
+            class="item pixel-img"
+            :style="{marginRight:offset}"
+            alt="marina" 
+            :src="image"
+          >
           <h1 :class="{transparent: currentItem >= skins.length - 1}" @click="nextItem">></h1>
         </div>
         <h2 class="item-name">{{ skins[currentItem].name }}</h2>
@@ -84,6 +89,10 @@ export default {
     },
     canBuy() {
       return this.gold >= this.skins[this.currentItem].price && !this.isBought
+    },
+    offset() {
+      const offset = skins[this.currentItem].offset
+      return offset ? offset + 'px' : '0px'
     }
   }
 }

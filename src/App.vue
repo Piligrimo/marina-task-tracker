@@ -4,6 +4,7 @@
       <div class="image-container">
         <div class="character-container" :class="animationClass" >
           <img v-if="headPiece" class="head-piece pixel-img" alt="head-piece" :src="headPiece">
+          <img v-if="weapon" class="weapon pixel-img" alt="weapon" :src="weapon">
           <img class="character pixel-img" alt="marina" :src="bodyPiece">
         </div>
       </div>
@@ -140,6 +141,10 @@ export default {
     },
     headPiece() {
       const skin = skins.find(skin => skin.id === this.equipment.head)
+      return skin ? skin.image : null
+    },
+    weapon() {
+      const skin = skins.find(skin => skin.id === this.equipment.weapon)
       return skin ? skin.image : null
     }
    },
@@ -301,6 +306,13 @@ input[type='date'] {
   width: 168px;
   top: -45px;
   left: 2px;
+}
+
+.weapon {
+  position: absolute;
+  width: 134px;
+  top: 14px;
+  left: -87px;
 }
 @keyframes spin {
   0% { transform: rotate(0deg); }
