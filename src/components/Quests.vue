@@ -122,7 +122,7 @@ export default {
     isDailyDone (quest) {
       if (!quest.date) false
       var start = new Date();
-      start.setHours(0,0,0,0);
+      start.setHours(3,0,0,0);
       return Number(new Date(quest.date)) > Number(start)
     },
     async changeDone (quest) {
