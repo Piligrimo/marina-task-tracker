@@ -24,7 +24,7 @@
                 {{ quest.text }}
                 <img src="@/assets/trash.png" alt="" class="trash" @click="deleteQuest(quest.id)">
               </h3>
-              <h3 @click="changeDone(quest, i)" class="is-done" :class="isDailyDone(quest) ? 'add' : 'back'"> {{ isDailyDone(quest) ? 'Готово' : 'Не готово' }} </h3>
+              <h3 @click="changeDone(quest, i)" class="is-done" :class="quest.done ? 'add' : 'back'"> {{ quest.done ? 'Готово' : 'Не готово' }} </h3>
             </div>
             <p class="difficulty">{{ diffсulties[quest.difficulty] }}   ( {{dailyRewards[quest.difficulty]}} ед. опыта )</p>
           </div>
@@ -118,12 +118,6 @@ export default {
       await api.deleteQuest(id)
       this.quests = await api.getQuests()
       this.pending = false
-    },
-    isDailyDone (quest) {
-      if (!quest.date) false
-      var start = new Date();
-      start.setHours(3,0,0,0);
-      return Number(new Date(quest.date)) > Number(start)
     },
     async changeDone (quest) {
       this.pending = true
