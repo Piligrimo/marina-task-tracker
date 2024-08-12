@@ -74,6 +74,7 @@ import SkinBook from './components/SkinBook.vue'
 import { skillList } from './utils/utils'
 import skins from './utils/skins'
 import api from '@/api'
+import cat from '@/assets/skins/cat.png'
 export default {
   name: 'App',
   components: {
@@ -144,6 +145,7 @@ export default {
       return skin ? skin.image : null
     },
     weapon() {
+      if (this.animationClass === 'cat-ch-animation') return cat
       const skin = skins.find(skin => skin.id === this.equipment.weapon)
       return skin ? skin.image : null
     }

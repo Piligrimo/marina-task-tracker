@@ -38,4 +38,10 @@ export const skillList = [
     shortName: 'ЯР',
     animation: 'rage'
   },
+  {
+    id: 7,
+    name: 'Захват Кота',
+    shortName: 'ЗК',
+    animation: 'cat-ch'
+  },
 ]
