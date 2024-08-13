@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <template v-if="!initialLoading">
+      <img src="./assets/shadow.png" alt="loading" class="pixel-img shadow">
       <div class="image-container">
         <div class="character-container" :class="animationClass" >
           <img v-if="headPiece" class="head-piece pixel-img" alt="head-piece" :src="headPiece">
@@ -335,5 +336,13 @@ input[type='date'] {
   animation-iteration-count: infinite;
   animation-timing-function: linear;
   width: 100px;
+}
+
+.shadow{
+  position: relative;
+    left: calc(50% - 60px);
+    width: 120px;
+    top: 225px;
+    margin-top: -20px;
 }
 </style>

@@ -36,14 +36,20 @@ export default {
     }
   },
   methods: {
- 
+    lesserVersionLearned(skillId) {
+      const skill = skillList.find(skill => skill.id === skillId)
+      if (skill.lesserSkill) {
+        return this.learnedSkillIds.includes(skill.lesserSkill)
+      }
+      return true
+    }
   },
   computed: {
     learnedSkills() {
       return this.skillList.filter(skill => this.learnedSkillIds.includes(skill.id))
     },
     unlearnedSkills() {
-      return this.skillList.filter(skill => !this.learnedSkillIds.includes(skill.id)) 
+      return this.skillList.filter(skill => !this.learnedSkillIds.includes(skill.id)).filter(skill => this.lesserVersionLearned(skill.id))
     }
   }
 }

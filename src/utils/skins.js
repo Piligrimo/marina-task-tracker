@@ -14,6 +14,7 @@ import knife from '@/assets/skins/knife.png'
 import shortSword from '@/assets/skins/short-sword.png'
 import longSword from '@/assets/skins/long-sword.png'
 import pickaxe from '@/assets/skins/pickaxe.png'
+import disco from '@/assets/skins/disco.png'
 
 export default [
   { 
@@ -131,6 +132,13 @@ export default [
     image: longSword,
     type: 'weapon',
     offset: 10,
+    price: 100,
+  },
+  { 
+    id: 16,
+    name: 'Диско-коп',
+    image: disco,
+    type: 'body',
     price: 100,
   },
 ]
