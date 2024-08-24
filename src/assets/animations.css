@@ -161,6 +161,11 @@
     39.214619, 7.348362, 0, 1);}
 }
 
+@keyframes clones {
+  0%   {transform: scale(0); opacity: 0;}
+  100%   {transform: scale(1); opacity: 1;}
+}
+
 .hit-animation {
   animation-name: hit;
   animation-duration: 1s;
@@ -222,4 +227,10 @@
   animation-duration: 4s;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
+}
+
+.clones-1-animation, .clones-2-animation, .clones-3-animation {
+  animation-name: clones;
+  animation-duration: 1s;
+  animation-timing-function: linear;
 }

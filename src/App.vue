@@ -3,7 +3,24 @@
     <template v-if="!initialLoading">
       <img src="./assets/shadow.png" alt="loading" class="pixel-img shadow">
       <div class="image-container">
-        <div class="character-container" :class="animationClass" >
+        <div 
+          v-for="i in cloneCount" 
+          :key="i" class="character-container" 
+          :class="animationClass" 
+          :style="cloneStyle(i)"
+        >
+          <img v-if="headPiece" class="head-piece pixel-img" alt="head-piece" :src="headPiece">
+          <img v-if="weapon" class="weapon pixel-img" alt="weapon" :src="weapon">
+          <img class="character pixel-img" alt="marina" :src="bodyPiece">
+        </div>
+      </div>
+      <div v-if="showExtraClones" class="image-container _extra">
+        <div 
+          v-for="i in cloneCount" 
+          :key="i" class="character-container" 
+          :class="animationClass" 
+          :style="cloneStyle(i)"
+        >
           <img v-if="headPiece" class="head-piece pixel-img" alt="head-piece" :src="headPiece">
           <img v-if="weapon" class="weapon pixel-img" alt="weapon" :src="weapon">
           <img class="character pixel-img" alt="marina" :src="bodyPiece">
@@ -34,6 +51,13 @@
           @click="playAnimation(skill.animation)"
         >
           {{ skill.shortName }}
+        </button>
+        <button
+          v-if="skillIds.includes(11)"
+          class="button pixel-border _compact"
+          @click="cloneCount = 1; showExtraClones = false"
+        >
+          К0
         </button>
         <button class="button pixel-border _compact" @click="skillBookVisible = true">+</button>
         <button class="button pixel-border" @click="section = 'info'">Назад</button>
@@ -101,7 +125,9 @@ export default {
       weapon: null,
      },
      boughtItems: [],
-     initialLoading: true
+     initialLoading: true,
+     cloneCount: 1,
+     showExtraClones: false
     }
   },
   async created() {
@@ -165,7 +191,7 @@ export default {
       this.experience = experience - 0.0001
       this.gold = gold
       if (skillIds) {
-        this.skillIds = JSON.parse(skillIds)
+        this.skillIds = [11, 4] || JSON.parse(skillIds)
       }
     },
     experienceForNthLevel(n) {
@@ -184,15 +210,37 @@ export default {
       this.skillIds.push(skillId)
     },
     playAnimation(animation) {
-        this.animationClass = ''
-        clearTimeout(this.timer)
+      if (animation === 'clones-1') {
+        this.cloneCount = 3
+        this.showExtraClones = false
+      }
+      if (animation === 'clones-2') {
+        this.cloneCount = 7
+        this.showExtraClones = false
+      }
+      if (animation === 'clones-3') {
+        this.cloneCount = 7
+        this.showExtraClones = true
+      }
+      this.animationClass = ''
+      clearTimeout(this.timer)
 
-        this.timer = setTimeout(() => {
-          this.animationClass = animation+'-animation'
-        }, 1)
+      this.timer = setTimeout(() => {
+        this.animationClass = animation+'-animation'
+      }, 1)
+    },
+    cloneZIndex(i) {
+      if (i < this.cloneCount / 2) return i - 1
+      return this.cloneCount - i
+    },
+    cloneStyle(i) {
+      const margin = Math.round(-12.5 * (this.cloneCount + 1))
+      return {
+        'z-index': this.cloneZIndex(i),
+        margin: `${this.cloneZIndex(i) * 2}px ${margin}px 0 ${margin}px`,
+      }
     }
   }
-
 }
 </script>
 
@@ -344,5 +392,13 @@ input[type='date'] {
     width: 120px;
     top: 225px;
     margin-top: -20px;
+}
+._extra {
+  position: relative;
+  top: -310px;
+  z-index: -1;
+  transform: scale(0.9);
+  filter: blur(2px);
+  margin-bottom: -250px;
 }
 </style>

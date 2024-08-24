@@ -64,4 +64,24 @@ export const skillList = [
     animation: 'disco-3',
     lesserSkill: 9
   },
+  {
+    id: 11,
+    name: 'Теневое Клонирование I',
+    shortName: 'КI',
+    animation: 'clones-1',
+  },
+  {
+    id: 12,
+    name: 'Теневое Клонирование II',
+    shortName: 'К2',
+    animation: 'clones-2',
+    lesserSkill: 11
+  },
+  {
+    id: 13,
+    name: 'Теневое Клонирование III',
+    shortName: 'К3',
+    animation: 'clones-3',
+    lesserSkill: 12
+  },
 ]
