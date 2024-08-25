@@ -191,7 +191,7 @@ export default {
       this.experience = experience - 0.0001
       this.gold = gold
       if (skillIds) {
-        this.skillIds = [11, 4] || JSON.parse(skillIds)
+        this.skillIds = JSON.parse(skillIds)
       }
     },
     experienceForNthLevel(n) {
