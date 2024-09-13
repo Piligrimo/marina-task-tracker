@@ -91,7 +91,7 @@
     <img 
       v-for="trash in trashPieces" 
       :key="trash.id" 
-      class="trash pixel-img" 
+      class="shit pixel-img" 
       :style="trash.style"
       @click="clean(trash.id)"
       src="./assets/shit.png"
@@ -447,7 +447,7 @@ input[type='date'] {
   filter: blur(2px);
   margin-bottom: -250px;
 }
-.trash {
+.shit {
   width: 200px;
   position: absolute;
 }
