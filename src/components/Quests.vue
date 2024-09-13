@@ -37,7 +37,11 @@
               </h3>
               <h3 @click="changeDone(quest)" class="is-done" > Выполнить </h3>
             </div>
-            <p class="difficulty">{{ diffсulties[quest.difficulty] }}   ( {{nonDailyRewards[quest.difficulty]}} золота )</p>
+            <p class="difficulty">
+              {{ diffсulties[quest.difficulty] }}   ( {{nonDailyRewards[quest.difficulty]}} золота )
+              <span v-if="!isExpired(quest.deadline)" class="deadline">Нужно сделать до {{ formatDate(quest.deadline) }}</span>
+              <span v-else class="deadline _expired">Просрочено</span>
+            </p>
           </div>
           <h2 v-if="doneQuests.length > 0">Выполненые квесты</h2>
           <div class="quest _done" v-for="(quest,i) in doneQuests" :key="i+'done'">
@@ -125,11 +129,19 @@ export default {
       this.quests = await api.getQuests()
       this.pending = false
     },
+    formatDate(date) {
+      return new Date(date).toLocaleDateString()
+    },
+    isExpired(date) {
+      return new Date(date) < new Date()
+    }
   },
   async created() {
     this.pending = true
     this.quests = await api.getQuests()
     this.pending = false
+    const trashCount = this.quests.filter(quest => !quest.done && quest.deadline && this.isExpired(quest.deadline)).length
+    this.$emit('litter', trashCount)
   },
   computed: {
     diffсultyOptions () {
@@ -165,6 +177,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.deadline {
+  opacity: 0.7;
+  margin-left: 10px;
+}
+._expired {
+  color: red;
+}
 .label {
   margin: 20px 0 -12px 0
 }

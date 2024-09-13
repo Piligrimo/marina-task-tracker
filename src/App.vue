@@ -66,8 +66,7 @@
       <quests
         v-show="questsVisible" 
         @close="closeQuests"
-        @add-exp="experienceBuffer += $event"
-        @add-gold="gold += $event"
+        @litter="litter"
       />
       <skill-book
         v-show="skillBookVisible" 
@@ -88,6 +87,20 @@
     <div v-else class="loader">
       <img src="./assets/h.png" alt="loading" class="pixel-img head">
       <h1>Загрузка...</h1>
+    </div>
+    <img 
+      v-for="trash in trashPieces" 
+      :key="trash.id" 
+      class="trash pixel-img" 
+      :style="trash.style"
+      @click="clean(trash.id)"
+      src="./assets/shit.png"
+    />
+    <div v-if="modalVisible" class="modal pixel-border ">
+      <h2>Ой-ёй ну и трэш!</h2>
+      Если не выполнять задания вовремя в книге квестов заводятся книжные черви, это же всем известно.
+      Они едят просроченые квесты, а потом какают&nbsp;повсюду. <br> Теперь придется убираться :с
+      <button @click="closeModal" class="button pixel-border">Понятно</button>
     </div>
   </div>
 </template>
@@ -124,15 +137,22 @@ export default {
       head: null,
       weapon: null,
      },
+     trashPieces: [],
      boughtItems: [],
      initialLoading: true,
      cloneCount: 1,
-     showExtraClones: false
+     showExtraClones: false,
+     modalMessageId: 1,
+     modalVisible: false
     }
   },
   async created() {
     await this.initInfo()
     this.initialLoading = false
+    const lastSeenMessage = localStorage.getItem('lastSeenMessage') || 0
+    if (this.modalMessageId > lastSeenMessage) { 
+      this.modalVisible = true
+    }
   },
   computed: {
     currentLevel() {
@@ -239,6 +259,21 @@ export default {
         'z-index': this.cloneZIndex(i),
         margin: `${this.cloneZIndex(i) * 2}px ${margin}px 0 ${margin}px`,
       }
+    },
+    litter(number) {
+      for (let i = 0; i < number; i++) {
+        this.trashPieces.push({
+          id: i,
+          style: `top:${Math.floor(Math.random() * window.innerHeight) - 100}px; left:${Math.floor(Math.random() * window.innerWidth)-100}px;`
+        })
+      }
+    },
+    clean(id) {
+      this.trashPieces = this.trashPieces.filter(piece => piece.id !== id)
+    },
+    closeModal() {
+      this.modalVisible = false
+      localStorage.setItem('lastSeenMessage', this.modalMessageId)
     }
   }
 }
@@ -260,6 +295,17 @@ body {
 :root {
   --pixel-color: #ac6c06;
   --pixel-width: 4px;
+}
+
+.modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 40% 20px;
+  padding: 20px;
+  background-color: #f6d8aa;
+  text-align: center;
+  font-size: 20px;
 }
 
 #app {
@@ -400,5 +446,9 @@ input[type='date'] {
   transform: scale(0.9);
   filter: blur(2px);
   margin-bottom: -250px;
+}
+.trash {
+  width: 200px;
+  position: absolute;
 }
 </style>
