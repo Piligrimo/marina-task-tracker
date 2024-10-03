@@ -15,6 +15,7 @@ import shortSword from '@/assets/skins/short-sword.png'
 import longSword from '@/assets/skins/long-sword.png'
 import pickaxe from '@/assets/skins/pickaxe.png'
 import disco from '@/assets/skins/disco.png'
+import ghost from '@/assets/skins/ghost.png'
 
 export default [
   { 
@@ -23,6 +24,13 @@ export default [
     image: marina,
     type: 'body',
     price: 0,
+  },
+  { 
+    id: 17,
+    name: 'Осенняя простыня',
+    image: ghost,
+    type: 'body',
+    price: 20,
   },
   { 
     id: 2,

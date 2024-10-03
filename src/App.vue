@@ -94,12 +94,11 @@
       class="shit pixel-img" 
       :style="trash.style"
       @click="clean(trash.id)"
-      src="./assets/shit.png"
+      src="./assets/leaves.png"
     />
     <div v-if="modalVisible" class="modal pixel-border ">
-      <h2>Ой-ёй ну и трэш!</h2>
-      Если не выполнять задания вовремя в книге квестов заводятся книжные черви, это же всем известно.
-      Они едят просроченые квесты, а потом какают&nbsp;повсюду. <br> Теперь придется убираться :с
+      <h2>Осенний апдейт!</h2>
+      Убирай листья, готовься к хеллоуину!
       <button @click="closeModal" class="button pixel-border">Понятно</button>
     </div>
   </div>
@@ -142,7 +141,7 @@ export default {
      initialLoading: true,
      cloneCount: 1,
      showExtraClones: false,
-     modalMessageId: 1,
+     modalMessageId: 2,
      modalVisible: false
     }
   },
